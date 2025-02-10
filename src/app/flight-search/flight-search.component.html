@@ -1,0 +1,155 @@
+<app-nav-bar></app-nav-bar>
+
+<div class = "background-container">
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col "></div>
+        <div class="col ">
+            <div class="container mt-5 ">
+                <p class="text-center fs-1 fw-bold lh-1 ">Flights Searching</p>
+                <p class="text-center fs-2 fw-semibold lh-1">All the flights you need</p>
+                <p class="text-center fs-3 fw-normal lh-1 fst-italic">On your hands</p>
+            </div>
+        </div>
+        <div class="col "></div>
+        <div class="col ">
+            <div class="container mt-5 w-75 ">
+                <form (ngSubmit)="FilterBy()" class="position-relative" #searchForm="ngForm">
+                    <div>
+                        <div class="form-floating-s my-2 ">
+                            <input required type="text" class="form-control" id="fromLocation" placeholder="From" name="fromLocation" [(ngModel)]="flight.fromLocation"/>
+                        </div>
+
+                        <div class="form-floating-s my-2">
+                            <input required type="text" class="form-control" id="ToLocation" placeholder="To" name="toLocation" [(ngModel)]="flight.toLocation"/>
+                        </div>
+
+                        <label class="active fst-italic" for="dateStandard">Departure</label>
+                        <input required class="form-control" type="date" id="dateStandard" name="dateStandard" [(ngModel)]="flight.fromDate"/>
+
+                        <label class="active fst-italic">Number of Passengers</label>
+                        <input type="number" class ="form-control" name="passengerNumber" [(ngModel)]="flight.passengerNumber" min="0" #passNumber="ngModel"
+                            oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"/>
+
+                    </div>
+                    <button [disabled]="searchForm.invalid" class="btn btn-primary my-2 position-absolute end-0 " #searchButton name="searchButton" type="submit">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="isFiltered==false">
+    <div class="card mx-5 my-5 " *ngFor="let flight of flights">
+        <div class="card-header text-uppercase text-center">
+            <p class="my-0">{{flight.fromLocation}}-{{flight.toLocation}}</p>
+            <p class="my-0">From {{flight.fromDate}} To {{flight.toDate}}</p>
+        </div>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-2">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-3">
+                            <p class="text-end lh-1 my-0 fs-5">{{flight.fromTime}}</p>
+                            <p class="text-end lh-1 ">Dep.</p>
+                        </div>
+                        <div class="col">
+                            <hr class="border opacity-75 border-black">
+                        </div>
+                        <div class="col-3">
+                            <p class="text-start lh-1 my-0 fs-5">{{flight.toTime}}</p>
+                            <p class="text-start lh-1 ">Arr.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <p class="text-capitalize mt-3">ID: {{flight.id}},  Operated by: {{flight.airlineName}}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="text-capitalize mt-3">N° Seats Available : {{flight.passengerNumber}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col text-center" *ngIf="!isFavAlready(flight.id)">
+                            <button class="btn btn-primary col-6" (click)="SaveFlight(flight.id)">Save</button>
+                        </div>
+                    </div>
+                    <div class="row mt-3" *ngIf="isAdmin == 'true'">
+                        <div class="col text-end" *ngIf="isAdmin == 'true'">
+                            <button class="btn btn-outline-secondary col-6  " (click)="EditFlight(flight.id)">Edit</button>
+                        </div>
+                        <div class="col text-start" *ngIf="isAdmin == 'true'">
+                            <button class="btn btn-outline-danger col-6 " (click)="RemoveFlight(flight.id)">Del.</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center mt-3">
+                <p class="my-0 lh-1">Price per Person : </p> <h1 class="my-0 lh-1">{{flight.price}}€</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="isFiltered==true">
+    <div class="card mx-5 my-5 " *ngFor="let flight of filteredFilghts">
+        <div class="card-header text-uppercase text-center">
+            <p class="my-0">{{flight.fromLocation}}-{{flight.toLocation}}</p>
+            <p class="my-0">From {{flight.fromDate}} To {{flight.toDate}}</p>
+        </div>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-2">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-3">
+                            <p class="text-end lh-1 my-0 fs-5">{{flight.fromTime}}</p>
+                            <p class="text-end lh-1 ">Dep.</p>
+                        </div>
+                        <div class="col">
+                            <hr class="border opacity-75 border-black">
+                        </div>
+                        <div class="col-3">
+                            <p class="text-start lh-1 my-0 fs-5">{{flight.toTime}}</p>
+                            <p class="text-start lh-1 ">Arr.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <p class="text-capitalize mt-3">ID: {{flight.id}},  Operated by: {{flight.airlineName}}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="text-capitalize mt-3">N° Seats Available : {{flight.passengerNumber}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col text-center" *ngIf="!isFavAlready(flight.id)">
+                            <button class="btn btn-primary col-6" (click)="SaveFlight(flight.id)">Save</button>
+                        </div>
+                    </div>
+                    <div class="row mt-3" *ngIf="isAdmin == 'true'">
+                        <div class="col text-end" *ngIf="isAdmin == 'true'">
+                            <button class="btn btn-outline-secondary col-6  " (click)="EditFlight(flight.id)">Edit</button>
+                        </div>
+                        <div class="col text-start" *ngIf="isAdmin == 'true'">
+                            <button class="btn btn-outline-danger col-6 " (click)="RemoveFlight(flight.id)">Del.</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center mt-3">
+                <p class="my-0 lh-1">Price per Person : </p> <h1 class="my-0 lh-1">{{flight.price}}€</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

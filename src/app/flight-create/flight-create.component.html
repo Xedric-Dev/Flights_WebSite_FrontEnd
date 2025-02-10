@@ -1,0 +1,82 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="card mx-auto text-center" style="width: 70%; margin-top: 5%;">
+    <form (ngSubmit)="CreateFlight()" #createFlightForm="ngForm" >
+        <div>
+            <div class="row">
+                <div class="mb-3">
+                    <label class="form-label mt-3 h5">Airline Name</label>
+                    <input required class="form-control mx-auto" style="width: 50%;" type="text" name="airlineName" #airlineName="ngModel" [(ngModel)]="this.flight.airlineName">
+                    <div *ngIf="airlineName.invalid && (airlineName.touched || airlineName.dirty)">
+                        <div class="text-danger" style="font-size:x-small;" *ngIf="airlineName.errors?.['required']">Airline Name is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label h5">From</label>
+                        <input required class="form-control mx-auto" style="width: 90%;" type="text" name="fromLocation" #fromLocation="ngModel" [(ngModel)]="this.flight.fromLocation">
+                        <div *ngIf="fromLocation.invalid && (fromLocation.touched || fromLocation.dirty)">
+                            <div class="text-danger" style="font-size:x-small;" *ngIf="fromLocation.errors?.['required']">Departure Location is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label h5">To</label>
+                        <input required class="form-control mx-auto" style="width: 90%;" type="text" name="toLocation" #toLocation="ngModel" [(ngModel)]="this.flight.toLocation">
+                        <div *ngIf="toLocation.invalid && (toLocation.touched || toLocation.dirty)">
+                            <div class="text-danger" style="font-size:x-small;" *ngIf="toLocation.errors?.['required']">Arrival Location is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <label class="form-label h5">Departure Day</label>
+                        <input required class="form-control mx-auto mb-3" style="width: 90%;" type="date" name="fromDate" [(ngModel)]="this.flight.fromDate">
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <label class="form-label h5">Day of Arrival</label>
+                        <input required class="form-control mx-auto mb-3" style="width: 90%;" type="date" name="toDate" [(ngModel)]="this.flight.toDate">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <label class="form-label h5">Departure Time</label>
+                        <input required class="form-control mx-auto mb-3" style="width: 90%;" type="time" name="fromTime" [(ngModel)]="this.flight.fromTime">
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <label class="form-label h5">Arrival Time</label>
+                        <input required class="form-control mx-auto mb-3" style="width: 90%;" type="time" name="toTime" [(ngModel)]="this.flight.toTime">
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label h5">Number Of Seats Available</label>
+                <input required class="form-control mx-auto " style="width: 50%;" type="number" min="0" oninput="this.value = 
+                                                                                                                !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null" 
+                    name="passengerNumber" #passengerNumber="ngModel" [(ngModel)]="this.flight.passengerNumber">
+            </div>
+            <div>
+                <label class="form-label h5">Price</label>
+                <input required class="form-control mx-auto mb-3" style="width: 50%;" type="number" min="0" oninput="this.value = 
+                                                                                                                !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null" 
+                     name="price" [(ngModel)]="this.flight.price">
+            </div>
+            <div>
+                <button [disabled]="createFlightForm.invalid" class="btn btn-primary mb-3" type="submit">{{isEditing? 'Edit' : 'Create!'}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+

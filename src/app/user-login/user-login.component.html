@@ -1,0 +1,25 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="card text-center mx-auto " style="width: 300px; margin-top: 10%;">
+    <form (ngSubmit)="UserLogin()">
+        <div class="form-floating mb-3 mx-auto mt-3" style="width: 80%;">
+           <input class="form-control"  type="text" id="floatingUser" placeholder="User" name="userName" [(ngModel)]="this.user.userName">
+           <label for="floatingUser">UserName</label>
+        </div>
+        <div class="form-floating mx-auto mb-3" style="width: 80%;">
+            <input class="form-control" type="password" id="floatingPassword" placeholder="Password mx-auto" name="password" [(ngModel)]="this.user.password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div *ngIf="this.isRegistering== false">
+            <button class="btn btn-link mb-3" type="button" (click)="setRegister()">Not a user? Register Now!</button>
+        </div>
+        <div class="form-floating mx-auto mb-3" style="width: 80%;" *ngIf="this.isRegistering == true">
+            <input class="form-control" type="password" placeholder="Reinsert Password" name="reinsertedPassword" id="rp">
+            <label for="rp">Reinsert Password</label>
+        </div>
+        <div>
+            <button class="btn btn-primary mb-3" type="submit">{{isRegistering? 'Register' : 'Login'}}</button>
+        </div>
+    </form>
+</div>
+

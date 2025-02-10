@@ -1,0 +1,85 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="card mx-auto text-center" style="width: 300px; margin-top: 7%;">
+    <div>
+        <p class="h3 mt-3">My Profile</p>
+        <p class="h4 mb-3"> Hi {{user.userName}}!</p>
+        <button class="btn btn-outline-secondary mb-3" (click)="ShowForm()" id="showFormButton">Change Password</button>
+        <form id="changePassForm" style="display: none;">
+            <div class="form-floating mb-3 mx-auto mt-3" style="width: 80%;">
+                <input class="form-control"  type="password" id="cp" placeholder="Current Password" name="password">
+                <label for="cp">Current Password</label>
+            </div>
+            <div class="form-floating mb-3 mx-auto mt-3" style="width: 80%;">
+                <input class="form-control"  type="password" id="np" placeholder="New Password" name="newPassword">
+                <label for="np">New Password</label>
+            </div>
+            <div class="form-floating mb-3 mx-auto mt-3" style="width: 80%;">
+                <input class="form-control"  type="password" id="rnp" placeholder="Reinsert New Password" name="reinsertPassword">
+                <label for="rnp">Reinsert New Password</label>
+            </div>    
+            <div>
+                <button class="btn btn-primary mx-auto mb-3" (click)="ChangePassword()" id="changePassButton" style="display: none;" >Update Password</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <button class="btn btn-outline-info mb-3 mx-auto" (click)="ShowFavFlights()" style="display: block;" id="showFavFlightsButton">Show Saved Flights</button>
+    </div>
+</div>
+
+<div id="savedFlightElement" style="display: none;">
+    <div>
+        <p class="h3 mt-3 mb-0 text-center">Saved Flights</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-close mb-3" style="margin-left: 85%;" (click)="HideFavFlights()"  id="hideFavFlightsButton" ></button>
+    </div>
+    <div class="card text-center mx-auto mt-3" style="width: 85%; max-height: 450px; overflow-y: auto;">
+        <div class="card mx-3 my-3 " *ngFor="let flight of this.favFilghts">
+            <div class="card-header text-uppercase text-center">
+                <p class="my-0">{{flight.fromLocation}}-{{flight.toLocation}}</p>
+                <p class="my-0">From {{flight.fromDate}} To {{flight.toDate}}</p>
+            </div>
+            <div class="card-body">
+                <div class="row row-cols-1 row-cols-md-2">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-3">
+                                <p class="text-end lh-1 my-0 fs-5">{{flight.fromTime}}</p>
+                                <p class="text-end lh-1 ">Dep.</p>
+                            </div>
+                            <div class="col">
+                                <hr class="border opacity-75 border-black">
+                            </div>
+                            <div class="col-3">
+                                <p class="text-start lh-1 my-0 fs-5">{{flight.toTime}}</p>
+                                <p class="text-start lh-1 ">Arr.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                <p class="text-capitalize mt-3">ID: {{flight.id}},  Operated by: {{flight.airlineName}}</p>
+                            </div>
+                            <div class="col text-center">
+                                <p class="text-capitalize mt-3">N° Seats Available : {{flight.passengerNumber}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col text-center">
+                                <button class="btn btn-danger col-6" (click)="RemoveFlight(flight.id)">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mt-3">
+                    <p class="my-0 lh-1">Price per Person : </p> <h1 class="my-0 lh-1">{{flight.price}}€</h1>
+                </div>
+            </div>
+        </div>
+        
+    </div>    
+</div>
+

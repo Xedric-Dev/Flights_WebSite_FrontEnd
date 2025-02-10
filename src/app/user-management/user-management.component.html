@@ -1,0 +1,26 @@
+<app-nav-bar></app-nav-bar>
+<div>
+    <p class="h2 text-center mb-4" style="margin-top: 5%;">Manage Users</p>
+</div>
+<div class="card mx-auto" style="max-width: 70%; overflow-x: auto; max-height: 80%; overflow-y: auto;">
+    <table class="table mx-auto my-3" style="width: 90%;">
+        <thead class="text-center">
+            <tr>
+                <td class="h5">UserId</td>
+                <td class="h5">User</td>
+                <td class="h5 ">IsAdmin </td>
+                <td class="h5">Edit Permissions</td>
+                <td class="h5">Delete</td>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            <tr *ngFor="let user of usersList">
+                <td>{{user.id}}</td>
+                <td>{{user.userName}}</td>
+                <td class="text-capitalize">{{user.isAdmin}}</td>
+                <td><button class="btn btn-outline-primary my-0"  *ngIf="userLoggedId != user.id" (click)="MakeAdmin(user.id)">{{user.isAdmin? 'Remove Admin' : 'Make Admin'}}</button></td>
+                <td><button class="btn btn-outline-danger my-0"  *ngIf="userLoggedId != user.id" (click)="DeleteUser(user.id)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
