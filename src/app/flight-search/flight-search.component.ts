@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FlightService } from '../flight.service';
 import { Flight } from '../Models/Flight';
 import { FormsModule } from '@angular/forms';
@@ -8,13 +8,17 @@ import { NavBarComponent } from "../nav-bar/nav-bar.component";
 import { Router } from '@angular/router';
 import { User } from '../Models/User';
 import { UserService } from '../user.service';
+import { APP_BASE_HREF } from '@angular/common';
 
 @Component({
   selector: 'app-flight-search',
   standalone: true,
   imports: [FormsModule, CommonModule, NavBarComponent],
   templateUrl: './flight-search.component.html',
-  styleUrl: './flight-search.component.css'
+  styleUrl: './flight-search.component.css',
+  providers: [
+    { provide: APP_BASE_HREF, useValue: '/Flights_WebSite_FrontEnd/' }
+  ]
 })
 export class FlightSearchComponent implements OnInit {
   flight : Flight = {
@@ -56,12 +60,17 @@ export class FlightSearchComponent implements OnInit {
   public isLoggedIn = sessionStorage.getItem("isLoggedIn");
   public isAdmin = sessionStorage.getItem("isAdmin");
 
+  backgroungImageUrl :string = '';
+
   public isFiltered : boolean = false;
 
   public flights : Flight[] = []
   public filteredFilghts : Flight[] =[]
 
-  constructor(private flightService : FlightService, private router : Router, private userService : UserService) {}
+  constructor(private flightService : FlightService, 
+              private router : Router, 
+              private userService : UserService,
+              @Inject(APP_BASE_HREF) private baseHref : string) {}
 
   ngOnInit(){
     if(this.userLoggedId){
@@ -75,6 +84,8 @@ export class FlightSearchComponent implements OnInit {
       this.flights = response;
       console.log(response)
     })
+    
+    this.backgroungImageUrl = `${this.baseHref}assets/Images/Airplain_Banner_NoText.jpg`
   }
 
 
