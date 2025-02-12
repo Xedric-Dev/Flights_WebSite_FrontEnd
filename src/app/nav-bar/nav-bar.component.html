@@ -11,7 +11,7 @@
                 <a class="nav-link " aria-current="page" routerLink="/">Home</a>
             </li>
             <li class="nav-item">
-                <a *ngIf="(isLoggedIn == 'true')" routerLink='/myProfile' class="nav-link" >My Profile</a>
+                <a *ngIf="(isLoggedIn == 'true')" routerLink="/myProfile" class="nav-link" >My Profile</a>
             </li>
             <li *ngIf="isAdmin=='true'" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,7 +28,7 @@
             </li>
         </ul>
         <div class ="d-flex justify-content-end">
-            <a *ngIf="(isLoggedIn == null)" routerLink='/login' routerLinkActive="router-link-active" ="/login" class="btn btn-primary ">Login</a>
+            <a *ngIf="(isLoggedIn == null)" routerLink="/login"  class="btn btn-primary ">Login</a>
             <button class = "btn btn-outline-danger " (click)="LogOut()" *ngIf="(isLoggedIn == 'true')">Logout</button>
         </div>
       </div>
