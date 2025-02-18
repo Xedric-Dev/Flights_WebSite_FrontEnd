@@ -92,8 +92,8 @@ export class FlightSearchComponent implements OnInit {
   FilterBy() : void{
     
     this.filteredFilghts = this.flights.filter(p=> {
-      if (p.fromLocation==this.flight.fromLocation && 
-          p.toLocation==this.flight.toLocation &&
+      if (p.fromLocation.toLowerCase()==this.flight.fromLocation.toLowerCase() && 
+          p.toLocation.toLowerCase()==this.flight.toLocation.toLowerCase() &&
           p.fromDate==this.flight.fromDate &&
           p.passengerNumber>this.flight.passengerNumber){
 
