@@ -14,9 +14,10 @@
             <button class="btn btn-link mb-3" type="button" (click)="setRegister()">Not a user? Register Now!</button>
         </div>
         <div class="form-floating mx-auto mb-3" style="width: 80%;" *ngIf="this.isRegistering == true">
-            <input class="form-control" type="password" placeholder="Reinsert Password" name="reinsertedPassword" id="rp">
+            <input required class="form-control" type="password" placeholder="Reinsert Password" name="reinsertedPassword" id="rp">
             <label for="rp">Reinsert Password</label>
         </div>
+        <div class="text-danger text-center mb-3">{{passErrorMessage}}</div>
         <div>
             <button class="btn btn-primary mb-3" type="submit">{{isRegistering? 'Register' : 'Login'}}</button>
         </div>

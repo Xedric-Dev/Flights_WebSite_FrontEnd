@@ -25,14 +25,19 @@ export class UserLoginComponent {
     favoriteFlights : []    
   }
 
+  public passErrorMessage : string = '';
+
   public isRegistering : boolean = false;
 
   private userFiltered? : User
 
   private errorMessage : string ='';
 
+  private userList : User[] = [];
+
   setRegister() : void {
     this.isRegistering = true;
+    this.userService.getUsers().subscribe(us=> this.userList = us);
   }
 
   UserLogin(){
@@ -64,7 +69,7 @@ export class UserLoginComponent {
               this.router.navigate(["/"], {state : {reload : true}}).then();
               } 
               else {
-              console.log("Wrong User or password")
+              this.passErrorMessage = "Invalid Username or Password";
               }
             
             this.userFiltered = {
@@ -86,6 +91,17 @@ export class UserLoginComponent {
     else
     {
       if(this.user.password == (document.getElementById("rp") as HTMLInputElement).value){
+        
+        if(this.user.userName == "" || this.user.password == ""){
+          this.passErrorMessage = "Please fill out all fields";
+          return;
+        }
+        
+        if(this.userList.find (u=> u.userName == this.user.userName)){
+          this.passErrorMessage = "Username already exists";
+          return;
+        }
+
         this.userService.createUsers(this.user).subscribe({
           next : (response) =>{
             this.router.navigate(["/"]);
@@ -96,6 +112,9 @@ export class UserLoginComponent {
           }
   
         })
+      }
+      else {
+        this.passErrorMessage = "Passwords do not match";
       }
       
     }
